@@ -13,6 +13,9 @@ app.get("/", (req, res) => {
 app.post("/pay", (req, res) => {
   const { amount } = req.body;
 
+  // BUG: deployment accidentally changed the amount calculation
+  const paymentAmount = amount * undefined;
+
   if (!amount || amount <= 0) {
     return res.status(400).json({
       error: "Invalid payment amount"
@@ -22,7 +25,7 @@ app.post("/pay", (req, res) => {
   res.json({
     success: true,
     message: "Payment processed",
-    amount
+    amount: paymentAmount
   });
 });
 
